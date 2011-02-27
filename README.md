@@ -1,6 +1,8 @@
-## HUMA - HUman Madeable Arduino-compatible board
+## HUMA - Freeduino
+HUman Madeable Arduino-compatible board
 
 ### Directories
-* /eagls - EagleCad files
-* /eagls - Exported EagleCad files
+* /eagle - EagleCad files
+* /eagle_export - Exported EagleCad files
 * /doc - Instruction manual
+* /gerber_conf - 
