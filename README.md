@@ -2,7 +2,7 @@
 HUman Madeable Arduino-compatible board
 
 ### Directories
-* /eagle - EagleCad files
-* /eagle_export - Exported EagleCad files
-* /doc - Instruction manual
-* /gerber_conf - 
+* /eagle	- EagleCad files
+* /export	- Faltten EagleCad and doc files
+* /doc		- Instruction manual
+* /gerber	- Configuration files for making gerber
