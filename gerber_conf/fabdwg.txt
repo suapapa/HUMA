@@ -1,0 +1,24 @@
+File Info:
+
+* TopLayer: .GTL
+* BottomLayer: .GBL
+* TopSilkscreen: .GTO
+* BottomSilkscreen: .GBO
+* TopSoldermask: .GTS
+* BottomSoldermask: .GBS
+* Drills: .TXT
+
+* BoardOutline .BOL
+* FabricationDrawingFile: .FAB
+* OutlineLayerFile: .OLN
+* ToolList: .toollist
+* Placement: .placement
+
+
+Order:
+
+* FR4 Material
+* 1 oz. copper
+* All holes plated through
+* Drills shown as finished sizes
+* Board thickness 0.062"
