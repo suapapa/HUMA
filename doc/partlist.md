@@ -16,6 +16,7 @@ RESISTOR           10k           1
 RESISTOR           470           4  `*`표시된 저항 3개는 330~1k 사이의 값으로 대치 가능
 RESISTOR           27            2
 RESISTOR           1k5           1
+RESISTOR           1k            2
 FUSE               PTC1812       1
 LED                3mm           3  글자 방향으로 짧은 다리가 오도록 장착
 RESOATOR           6MHz          1  **PCB상에 12MHz로 오기 되어 있음**
@@ -47,10 +48,11 @@ USB CONNECT         1       215    1    [EPX3333L](http://eleparts.co.kr/EPX3333
 PINHEADER-1X3       1       145    1    [EPX3333M](http://eleparts.co.kr/EPX3333M)
 PINHEADER-2x3       1         -    -    -
 PUSHBUTTON          1        30    1    [EPX3333N](http://eleparts.co.kr/EPX3333N)
-R-10k               1        10   10    [EPX3333P](http://eleparts.co.kr/EPX3333P)
-R-470               4        10   10    [EPX3333R](http://eleparts.co.kr/EPX3333R)
 R-27                2        10   10    [EPX3333T](http://eleparts.co.kr/EPX3333T)
+R-470               4        10   10    [EPX3333R](http://eleparts.co.kr/EPX3333R)
+R-1k                2        10   10    [EPX34LRU](http://eleparts.co.kr/EPX34LRU)
 R-1k5               1        10   10    [EPX3333B](http://eleparts.co.kr/EPX3333B)
+R-10k               1        10   10    [EPX3333P](http://eleparts.co.kr/EPX3333P)
 FUSE-PTC0805L       1              1    [EPX3FGFF](http://eleparts.co.kr/EPX3FGFF)
 LED-R               1        40    1    [EPX3333U](http://eleparts.co.kr/EPX3333U)
 LEG-G               1        40    1    [EPX3333V](http://eleparts.co.kr/EPX3333V)
