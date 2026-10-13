@@ -1,5 +1,7 @@
 # HUMA - Freeduino
 
+![HUMA](site/pics/14_done.webp)
+
 **HUMA** (HUman MAdeable Arduino)는 라디오 키트를 조립하듯 부품을 손수 납땜하여 완성할 수 있도록 설계된 오픈소스 아두이노 호환 보드(Freeduino 기반)입니다.
 
 An open-source, Arduino-compatible board designed for makers to hand-solder and assemble themselves.

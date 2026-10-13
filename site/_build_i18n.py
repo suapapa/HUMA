@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Generate localized HUMA site pages. Run from repo: python3 site/_build_i18n.py"""
 
+import os
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -1269,6 +1270,131 @@ BOM_META = {
 }
 
 
+def build_assets() -> None:
+    src_path = ROOT / "pics" / "14_done.webp"
+    if not src_path.exists():
+        return
+    try:
+        from PIL import Image, ImageDraw, ImageFilter, ImageFont
+    except ImportError:
+        print("PIL not installed, skipping asset generation")
+        return
+
+    src = Image.open(src_path).convert("RGBA")
+
+    def get_font(font_type, size, bold=False):
+        candidates = []
+        if font_type == "korean":
+            candidates = [
+                ("/System/Library/Fonts/AppleSDGothicNeo.ttc", 4 if bold else 2),
+                ("/Library/Fonts/Arial Unicode.ttf", 0),
+                ("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc", 0),
+                ("/usr/share/fonts/truetype/nanum/NanumGothic.ttf", 0),
+            ]
+        elif font_type == "latin":
+            candidates = [
+                ("/System/Library/Fonts/Helvetica.ttc", 1 if bold else 0),
+                ("/System/Library/Fonts/Supplemental/Arial Bold.ttf" if bold else "/System/Library/Fonts/Supplemental/Arial.ttf", 0),
+                ("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf" if bold else "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 0),
+            ]
+        for path, idx in candidates:
+            if os.path.exists(path):
+                try:
+                    return ImageFont.truetype(path, size, index=idx)
+                except Exception:
+                    pass
+        return ImageFont.load_default()
+
+    # 1. OG Image (1200x630)
+    W, H = 1200, 630
+    font_huge = get_font("latin", 84, bold=True)
+    font_sub = get_font("korean", 32, bold=True)
+    font_desc = get_font("latin", 24, bold=False)
+    font_badge = get_font("korean", 18, bold=True)
+    font_tag = get_font("korean", 17, bold=True)
+
+    im = Image.new("RGBA", (W, H), (244, 246, 248, 255))
+    draw = ImageDraw.Draw(im)
+    for y in range(H):
+        ratio = y / H
+        r = int(248 - ratio * 8)
+        g = int(250 - ratio * 8)
+        b = int(252 - ratio * 8)
+        draw.line([(0, y), (W, y)], fill=(r, g, b, 255))
+
+    # Top accent bar
+    draw.rectangle([0, 0, W, 8], fill=(196, 92, 38, 255))
+
+    # Pill badge
+    bx, by = 80, 75
+    draw.rounded_rectangle([bx, by, bx + 270, by + 36], radius=18, fill=(255, 243, 234, 255), outline=(196, 92, 38, 160), width=1)
+    draw.text((bx + 16, by + 8), "HUman MAdeable Arduino", font=font_badge, fill=(154, 63, 18, 255))
+
+    # Title & descriptions
+    draw.text((80, 135), "HUMA", font=font_huge, fill=(26, 35, 50, 255))
+    draw.text((80, 250), "라디오 키트처럼 직접 납땜하여 완성하는\n오픈소스 아두이노 호환 보드", font=font_sub, fill=(30, 41, 59, 255), spacing=10)
+    draw.text((80, 360), "Hand-solderable Arduino-compatible\nFreeduino-based DIY maker kit", font=font_desc, fill=(100, 116, 139, 255), spacing=6)
+
+    # Tags
+    tags = ["Through-Hole DIY", "ATmega8 / 328P", "Freeduino"]
+    tx = 80
+    for t in tags:
+        tb = font_tag.getbbox(t)
+        tw = tb[2] - tb[0] + 24
+        draw.rounded_rectangle([tx, 475, tx + tw, 475 + 36], radius=8, fill=(255, 255, 255, 255), outline=(203, 213, 225, 255), width=1)
+        draw.text((tx + 12, 475 + 8), t, font=font_tag, fill=(71, 85, 105, 255))
+        tx += tw + 12
+
+    # Card on right
+    card_w = 540
+    card_h = int(card_w * src.height / src.width)
+    board = src.resize((card_w, card_h), Image.Resampling.LANCZOS)
+    card_x = 590
+    card_y = (H - card_h) // 2 + 10
+
+    shadow = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    s_draw = ImageDraw.Draw(shadow)
+    s_draw.rounded_rectangle([card_x - 6, card_y + 12, card_x + card_w + 6, card_y + card_h + 26], radius=24, fill=(15, 23, 42, 60))
+    shadow = shadow.filter(ImageFilter.GaussianBlur(28))
+    im = Image.alpha_composite(im, shadow)
+
+    mask = Image.new("L", (card_w, card_h), 0)
+    ImageDraw.Draw(mask).rounded_rectangle([0, 0, card_w, card_h], radius=16, fill=255)
+    im.paste(board, (card_x, card_y), mask)
+
+    final_draw = ImageDraw.Draw(im)
+    final_draw.rounded_rectangle([card_x, card_y, card_x + card_w, card_y + card_h], radius=16, outline=(255, 255, 255, 255), width=2)
+
+    im.convert("RGB").save(ROOT / "og-image.png", format="PNG", optimize=True)
+    print("wrote", ROOT / "og-image.png")
+
+    # 2. Favicons
+    crop = src.crop((140, 20, 500, 380))
+    ati = crop.resize((180, 180), Image.Resampling.LANCZOS).convert("RGB")
+    ati.save(ROOT / "apple-touch-icon.png", format="PNG", optimize=True)
+    print("wrote", ROOT / "apple-touch-icon.png")
+
+    def make_rounded(size, radius):
+        im_r = crop.resize((size, size), Image.Resampling.LANCZOS).convert("RGBA")
+        scale = 4
+        m = Image.new("L", (size * scale, size * scale), 0)
+        md = ImageDraw.Draw(m)
+        md.rounded_rectangle([0, 0, size * scale - 1, size * scale - 1], radius=radius * scale, fill=255)
+        m = m.resize((size, size), Image.Resampling.LANCZOS)
+        im_r.putalpha(m)
+        return im_r
+
+    fav_48 = make_rounded(48, 8)
+    fav_32 = make_rounded(32, 6)
+    fav_16 = make_rounded(16, 3)
+
+    fav_32.save(ROOT / "favicon-32x32.png", format="PNG", optimize=True)
+    fav_32.save(ROOT / "favicon.png", format="PNG", optimize=True)
+    fav_16.save(ROOT / "favicon-16x16.png", format="PNG", optimize=True)
+    fav_48.save(ROOT / "favicon.ico", format="ICO", sizes=[(16, 16), (32, 32), (48, 48)])
+    print("wrote favicons (ico, png)")
+
+
 def write_guide(lang: str) -> None:
     g = GUIDE[lang]
     ui = UI[lang]
@@ -1280,6 +1406,20 @@ def write_guide(lang: str) -> None:
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{g["title"]}</title>
   <meta name="description" content="{g["desc"]}" />
+  <link rel="icon" href="../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="HUMA" />
+  <meta property="og:title" content="{g["title"]}" />
+  <meta property="og:description" content="{g["desc"]}" />
+  <meta property="og:url" content="https://suapapa.github.io/HUMA/{lang}/" />
+  <meta property="og:image" content="https://suapapa.github.io/HUMA/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{g["title"]}" />
+  <meta name="twitter:description" content="{g["desc"]}" />
+  <meta name="twitter:image" content="https://suapapa.github.io/HUMA/og-image.png" />
   <link rel="stylesheet" href="{CSS}" />
 </head>
 <body>
@@ -1340,6 +1480,20 @@ def write_bom(lang: str) -> None:
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{m["title"]}</title>
   <meta name="description" content="{m["desc"]}" />
+  <link rel="icon" href="../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="HUMA" />
+  <meta property="og:title" content="{m["title"]}" />
+  <meta property="og:description" content="{m["desc"]}" />
+  <meta property="og:url" content="https://suapapa.github.io/HUMA/{lang}/bom.html" />
+  <meta property="og:image" content="https://suapapa.github.io/HUMA/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{m["title"]}" />
+  <meta name="twitter:description" content="{m["desc"]}" />
+  <meta name="twitter:image" content="https://suapapa.github.io/HUMA/og-image.png" />
   <link rel="stylesheet" href="{CSS}" />
 </head>
 <body>
@@ -1395,7 +1549,21 @@ def write_root_redirect() -> None:
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>HUMA</title>
-  <meta name="description" content="HUMA - HUman Madeable Arduino assembly guide" />
+  <meta name="description" content="HUMA - HUman MAdeable Arduino assembly guide" />
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="HUMA" />
+  <meta property="og:title" content="HUMA - HUman MAdeable Arduino" />
+  <meta property="og:description" content="HUMA - 직접 손으로 조립하는 오픈소스 아두이노 호환 보드" />
+  <meta property="og:url" content="https://suapapa.github.io/HUMA/" />
+  <meta property="og:image" content="https://suapapa.github.io/HUMA/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="HUMA - HUman MAdeable Arduino" />
+  <meta name="twitter:description" content="HUMA - 직접 손으로 조립하는 오픈소스 아두이노 호환 보드" />
+  <meta name="twitter:image" content="https://suapapa.github.io/HUMA/og-image.png" />
   <script>
     (function () {
       var langs = ["ko", "en", "ja", "zh"];
@@ -1437,6 +1605,7 @@ def write_root_redirect() -> None:
 
 
 def main() -> None:
+    build_assets()
     for lang in LANGS:
         (ROOT / lang).mkdir(parents=True, exist_ok=True)
         write_guide(lang)
@@ -1444,7 +1613,14 @@ def main() -> None:
     write_root_redirect()
     # legacy redirects
     (ROOT / "huma_bom.html").write_text(
-        """<!DOCTYPE html><html><head><meta charset="utf-8"/><script>
+        """<!DOCTYPE html><html><head><meta charset="utf-8"/>
+<title>HUMA - BOM</title>
+<link rel="icon" href="favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<meta property="og:title" content="HUMA - Parts List" />
+<meta property="og:image" content="https://suapapa.github.io/HUMA/og-image.png" />
+<script>
 (function(){var s=null;try{s=localStorage.getItem("huma-lang")}catch(e){}
 var l=s||"en";if(["ko","en","ja","zh"].indexOf(l)<0)l="en";
 location.replace("./"+l+"/bom.html")})()</script>
