@@ -1,0 +1,45 @@
+{
+  "name": "HUMA",
+  "version": 1,
+  "qualityBar": ["Adafruit Learn", "SparkFun"],
+  "form": "canon-clean-docs",
+  "seedKey": "62ff8e49",
+  "register": "safer",
+  "buildPath": "code",
+  "tokens": {
+    "colors": {
+      "bg": "#f4f6f8",
+      "surface": "#ffffff",
+      "ink": "#1a2332",
+      "muted": "#4a5568",
+      "line": "#d5dce6",
+      "accent": "#c45c26",
+      "accentInk": "#9a3f12",
+      "accentSoft": "#fff3ea"
+    },
+    "radius": {
+      "control": "8px",
+      "surface": "10px"
+    },
+    "type": {
+      "family": "Gowun Dodum",
+      "mono": "Source Code Pro",
+      "bodySize": "1.05rem",
+      "measure": "68ch",
+      "weight": 400
+    },
+    "layout": {
+      "maxWidth": "1120px",
+      "tocWidth": "220px",
+      "navHeight": "64px"
+    }
+  },
+  "surfaces": ["site/index.html", "site/huma_bom.html"],
+  "assets": {
+    "fonts": [
+      "site/fonts/GowunDodum-Regular.woff2",
+      "site/fonts/source-code-pro-400.woff2"
+    ],
+    "photos": "site/pics/"
+  }
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HUMA</title>
+  <meta name="description" content="HUMA - HUman Madeable Arduino assembly guide" />
+  <script>
+    (function () {
+      var langs = ["ko", "en", "ja", "zh"];
+      var saved = null;
+      try { saved = localStorage.getItem("huma-lang"); } catch (e) {}
+      var lang = saved && langs.indexOf(saved) >= 0 ? saved : null;
+      if (!lang) {
+        var nav = (navigator.language || navigator.userLanguage || "en").toLowerCase();
+        if (nav.indexOf("ko") === 0) lang = "ko";
+        else if (nav.indexOf("ja") === 0) lang = "ja";
+        else if (nav.indexOf("zh") === 0) lang = "zh";
+        else lang = "en";
+      }
+      location.replace("./" + lang + "/");
+    })();
+  </script>
+  <noscript>
+    <meta http-equiv="refresh" content="0; url=./en/" />
+  </noscript>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 40rem; margin: 3rem auto; padding: 0 1rem; line-height: 1.6; }
+    a { margin-right: 1rem; }
+  </style>
+</head>
+<body>
+  <p>HUMA documentation</p>
+  <p>
+    <a href="./ko/">한국어</a>
+    <a href="./en/">English</a>
+    <a href="./ja/">日本語</a>
+    <a href="./zh/">中文</a>
+  </p>
+</body>
+</html>

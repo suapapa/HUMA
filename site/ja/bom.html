@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HUMA 部品一覧</title>
+  <meta name="description" content="FreeduinoベースのHUMAボード組み立てに必要な部品一覧です。" />
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html">HUMA <span>部品一覧</span></a>
+      <nav class="nav" aria-label="メインメニュー">
+        <a href="index.html">組み立て</a>
+        <a href="bom.html" aria-current="page">部品一覧</a>
+        <a class="nav-external" href="https://github.com/suapapa/HUMA" rel="noopener noreferrer">GitHub</a>
+        <label class="lang-switch">
+        <span class="visually-hidden">言語</span>
+        <select data-lang-switch data-page="bom" aria-label="言語">
+          <option value="ko">한국어</option><option value="en">English</option><option value="ja" selected>日本語</option><option value="zh">中文</option>
+        </select>
+      </label>
+      </nav>
+    </div>
+  </header>
+
+  <div class="layout layout--solo">
+    <main class="content">
+      <header class="hero hero--solo">
+        <div class="hero__copy">
+          <h1>部品一覧</h1>
+          <p class="page-intro">
+            FreeduinoベースのHUMAボード組み立てに必要な部品一覧です。
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn-secondary" href="index.html">組み立てガイド</a>
+          </div>
+        </div>
+      </header>
+
+      <div class="table-wrap">
+        <table class="table-parts">
+          <thead>
+            <tr>
+              <th scope="col">NAME</th>
+              <th scope="col">VALUE</th>
+              <th scope="col">EA</th>
+              <th scope="col">DESC</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>LDO</td><td>7805DT</td><td>1</td><td>5Vレギュレータ</td></tr>
+            <tr><td>USB2SERIAL IC</td><td>FT232BM</td><td>1</td><td>FT232BLでも可</td></tr>
+            <tr><td>DIODE</td><td>1N4004</td><td>1</td><td></td></tr>
+            <tr><td>PWR-JACK</td><td></td><td>1</td><td>DC電源ジャック</td></tr>
+            <tr><td>USB CONNECT</td><td></td><td>1</td><td>USB Type-Bコネクタ</td></tr>
+            <tr><td>PINHEADER</td><td>1X3</td><td>1</td><td>電源選択ジャンパ</td></tr>
+            <tr><td>PINHEADER</td><td>2x3</td><td>1</td><td>AVR ISP 6ピン</td></tr>
+            <tr><td>PUSHBUTTON</td><td></td><td>1</td><td>リセットスイッチ</td></tr>
+            <tr><td>RESISTOR</td><td>10k</td><td>1</td><td>リセットプルアップ</td></tr>
+            <tr><td>RESISTOR</td><td>470</td><td>4</td><td><code>*</code>の3本は330Ω〜1kΩで代替可</td></tr>
+            <tr><td>RESISTOR</td><td>27</td><td>2</td><td>USB信号線抵抗</td></tr>
+            <tr><td>RESISTOR</td><td>1k5</td><td>1</td><td>USBプルアップ</td></tr>
+            <tr><td>RESISTOR</td><td>1k</td><td>2</td><td></td></tr>
+            <tr><td>FUSE</td><td>PTC1812</td><td>1</td><td>リセッタブルヒューズ（またはビーズ）</td></tr>
+            <tr><td>LED</td><td>3mm</td><td>3</td><td>短い脚(-)をシルク表記側へ</td></tr>
+            <tr><td>RESONATOR</td><td>6MHz</td><td>1</td><td></td></tr>
+            <tr><td>CRYSTAL</td><td>16MHz</td><td>1</td><td></td></tr>
+            <tr><td>CAPACITOR</td><td>22pF</td><td>2</td><td></td></tr>
+            <tr><td>CAPACITOR</td><td>100nF</td><td>7</td><td>SMD 1608またはディスクセラミック</td></tr>
+            <tr><td>CAPACITOR</td><td>47uF</td><td>2</td><td>電解コンデンサ</td></tr>
+            <tr><td>CAPACITOR</td><td>10uF</td><td>1</td><td><strong>シルクは2.2uF表記（10uF使用）</strong></td></tr>
+            <tr><td>MCU</td><td>ATMEGA8</td><td>1</td><td>ATmega168 / ATmega328も可</td></tr>
+            <tr><td>IC SOCKET</td><td>28pin</td><td>1</td><td>ATmega用DIPソケット</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p>HUMA · HUman Madeable Arduino · <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.ja">CC BY-SA</a></p>
+      <p>Homin Lee &lt;<a href="mailto:i@homin.dev">i@homin.dev</a>&gt;</p>
+    </div>
+  </footer>
+
+  <script src="../site.js" defer></script>
+</body>
+</html>

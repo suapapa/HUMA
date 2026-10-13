@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HUMA 부품 목록</title>
+  <meta name="description" content="Freeduino HUMA 보드 조립에 필요한 부품 목록입니다." />
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html">HUMA <span>부품 목록</span></a>
+      <nav class="nav" aria-label="주요 메뉴">
+        <a href="index.html">조립</a>
+        <a href="bom.html" aria-current="page">부품 목록</a>
+        <a class="nav-external" href="https://github.com/suapapa/HUMA" rel="noopener noreferrer">GitHub</a>
+        <label class="lang-switch">
+        <span class="visually-hidden">언어</span>
+        <select data-lang-switch data-page="bom" aria-label="언어">
+          <option value="ko" selected>한국어</option><option value="en">English</option><option value="ja">日本語</option><option value="zh">中文</option>
+        </select>
+      </label>
+      </nav>
+    </div>
+  </header>
+
+  <div class="layout layout--solo">
+    <main class="content">
+      <header class="hero hero--solo">
+        <div class="hero__copy">
+          <h1>부품 목록</h1>
+          <p class="page-intro">
+            Freeduino 기반 HUMA 보드를 조립할 때 필요한 부품 목록입니다.
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn-secondary" href="index.html">조립 설명서</a>
+          </div>
+        </div>
+      </header>
+
+      <div class="table-wrap">
+        <table class="table-parts">
+          <thead>
+            <tr>
+              <th scope="col">NAME</th>
+              <th scope="col">VALUE</th>
+              <th scope="col">EA</th>
+              <th scope="col">DESC</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>LDO</td><td>7805DT</td><td>1</td><td>5V 레귤레이터</td></tr>
+            <tr><td>USB2SERIAL IC</td><td>FT232BM</td><td>1</td><td>FT232BL로 대체 가능</td></tr>
+            <tr><td>DIODE</td><td>1N4004</td><td>1</td><td></td></tr>
+            <tr><td>PWR-JACK</td><td></td><td>1</td><td>DC 전원 잭</td></tr>
+            <tr><td>USB CONNECT</td><td></td><td>1</td><td>USB Type-B 커넥터</td></tr>
+            <tr><td>PINHEADER</td><td>1X3</td><td>1</td><td>전원 선택 점퍼</td></tr>
+            <tr><td>PINHEADER</td><td>2x3</td><td>1</td><td>AVR ISP 6핀</td></tr>
+            <tr><td>PUSHBUTTON</td><td></td><td>1</td><td>리셋 버튼 스위치</td></tr>
+            <tr><td>RESISTOR</td><td>10k</td><td>1</td><td>리셋 풀업 저항</td></tr>
+            <tr><td>RESISTOR</td><td>470</td><td>4</td><td><code>*</code> 표시 저항 3개는 330Ω~1kΩ 사이 값으로 대체 가능</td></tr>
+            <tr><td>RESISTOR</td><td>27</td><td>2</td><td>USB 신호선 저항</td></tr>
+            <tr><td>RESISTOR</td><td>1k5</td><td>1</td><td>USB 풀업 저항</td></tr>
+            <tr><td>RESISTOR</td><td>1k</td><td>2</td><td></td></tr>
+            <tr><td>FUSE</td><td>PTC1812</td><td>1</td><td>복구형 퓨즈 (또는 비드 대체)</td></tr>
+            <tr><td>LED</td><td>3mm</td><td>3</td><td>보드 표기 방향으로 짧은 다리(-)가 오도록 장착</td></tr>
+            <tr><td>RESONATOR</td><td>6MHz</td><td>1</td><td></td></tr>
+            <tr><td>CRYSTAL</td><td>16MHz</td><td>1</td><td></td></tr>
+            <tr><td>CAPACITOR</td><td>22pF</td><td>2</td><td></td></tr>
+            <tr><td>CAPACITOR</td><td>100nF</td><td>7</td><td>SMD 1608 또는 디스크 세라믹 겸용</td></tr>
+            <tr><td>CAPACITOR</td><td>47uF</td><td>2</td><td>전해 커패시터</td></tr>
+            <tr><td>CAPACITOR</td><td>10uF</td><td>1</td><td><strong>PCB 실크에는 2.2uF으로 표기 (10uF 사용)</strong></td></tr>
+            <tr><td>MCU</td><td>ATMEGA8</td><td>1</td><td>ATmega168 / ATmega328 호환 가능</td></tr>
+            <tr><td>IC SOCKET</td><td>28pin</td><td>1</td><td>ATmega용 DIP 소켓</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p>HUMA · HUman Madeable Arduino · <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.ko">CC BY-SA</a></p>
+      <p>Homin Lee &lt;<a href="mailto:i@homin.dev">i@homin.dev</a>&gt;</p>
+    </div>
+  </footer>
+
+  <script src="../site.js" defer></script>
+</body>
+</html>

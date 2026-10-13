@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HUMA 組み立てガイド</title>
+  <meta name="description" content="HUMAは自分ではんだ付けして組み立てるArduino互換ボードです。部品確認からはんだ付け、ブートローダ書き込みまで手順で案内します。" />
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html">HUMA <span>組み立てガイド</span></a>
+      <nav class="nav" aria-label="メインメニュー">
+        <a href="index.html" aria-current="page">組み立て</a>
+        <a href="bom.html">部品一覧</a>
+        <a class="nav-external" href="https://github.com/suapapa/HUMA" rel="noopener noreferrer">GitHub</a>
+        <label class="lang-switch">
+        <span class="visually-hidden">言語</span>
+        <select data-lang-switch data-page="index" aria-label="言語">
+          <option value="ko">한국어</option><option value="en">English</option><option value="ja" selected>日本語</option><option value="zh">中文</option>
+        </select>
+      </label>
+      </nav>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="toc" aria-label="目次">
+      <h2>目次</h2>
+      <ol>
+        <li><a href="#tools">工具と部品</a></li>
+        <li><a href="#solder">はんだ付け</a></li>
+        <li><a href="#bootloader">ブートローダ書き込み</a></li>
+      </ol>
+    </aside>
+
+    <main class="content">
+      <header class="hero">
+        <div class="hero__copy">
+          <h1>HUMA 組み立てガイド</h1>
+          <p>
+            HUMAは
+            FreeduinoベースのArduino互換ボードです。
+            昔のラジオキットのように、部品を自分ではんだ付けして組み立てられるよう設計されています。
+            基本的なはんだ付け経験があれば完成できます。
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn-primary" href="#tools">組み立て開始</a>
+            <a class="btn btn-secondary" href="bom.html">部品一覧</a>
+          </div>
+        </div>
+        <figure class="hero__media">
+          <img src="../pics/HUMA_pcb.webp" alt="HUMA PCBボード" width="800" height="600" />
+          <figcaption>HUMA PCB</figcaption>
+        </figure>
+      </header>
+
+      <p>
+        はんだ付けに久しぶりなら、まず
+        <a href="https://homin.dev/blog/p=460/">マンガではんだ付けを学ぶ</a>（韓国語）を参照してください。
+      </p>
+      <p>
+        HUMAはオープンソースハードウェアです。組み立てや使用中のボード損傷、人身・物的損害について
+        一切の責任を負いません。
+      </p>
+      <p>
+        回路図・アートワーク・関連文書は
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.ja">CC BY-SA</a>
+        ライセンスです。
+      </p>
+
+      <aside class="callout callout-warn" role="note">
+        <p>
+          <strong>安全上の注意</strong>
+          作業者自身の安全は自分で守ってください。保護メガネなどを着用し、熱いこてによるやけどに注意し、
+          換気の良い場所で作業してください。
+        </p>
+      </aside>
+
+      <h2 id="tools">工具と部品</h2>
+      <div class="figure-pair">
+        <figure class="figure">
+          <img src="../pics/00_tools.webp" alt="組み立てに必要な工具" width="640" height="480" loading="lazy" />
+          <figcaption>工具</figcaption>
+        </figure>
+        <figure class="figure">
+          <img src="../pics/00_check_parts.webp" alt="部品の確認" width="640" height="480" loading="lazy" />
+          <figcaption>部品確認</figcaption>
+        </figure>
+      </div>
+      <p>
+        HUMA PCBと<a href="bom.html">部品一覧</a>を照合し、必要な部品が揃っているか確認します。
+      </p>
+
+      <h2 id="solder">はんだ付け</h2>
+      <p>
+        背の低い部品から高い部品へ、基板の内側から外側へ、熱に強い部品から弱い部品の順ではんだ付けします。
+      </p>
+      <p>
+        まず最も低い3.3V電源用SMDコンデンサから。プラス(+)側に帯表示があります。
+      </p>
+
+      <figure class="figure">
+        <img src="../pics/01_solder_smd_cap.webp" alt="SMDコンデンサの位置合わせ" width="800" height="600" loading="lazy" />
+        <figcaption>SMDコンデンサの配置</figcaption>
+      </figure>
+
+      <p>2.2u表記の向きに帯を合わせ、片側を仮付けしてから反対側を仕上げます。</p>
+
+      <aside class="callout callout-note" role="note">
+        <p>
+          <strong>参考</strong>
+          シルクは2.2uですが、実機では10uFコンデンサを使用しました。
+        </p>
+      </aside>
+
+      <figure class="figure">
+        <img src="../pics/02_solder_smd_cap.webp" alt="SMDコンデンサの反対側" width="800" height="600" loading="lazy" />
+        <figcaption>反対側のパッド</figcaption>
+      </figure>
+
+      <p>
+        続けて隣のソルダージャンパでUSBと3V3を接続します。これでFT232BLが供給する3.3Vをボード電源に使います。
+      </p>
+
+      <aside class="callout callout-note" role="note">
+        <p>
+          <strong>参考</strong>
+          3.3Vでより大きな電流が必要なら、裏面にMIC5219と470pFを実装し、LDOと3V3のジャンパを接続して
+          5Vから変換した3.3Vを使ってください。
+        </p>
+      </aside>
+
+      <p>
+        次にUSB-シリアル変換チップFT232BL（またはFT232BM）をはんだ付けします。SMD ICが初めてなら
+        <a href="https://homin.dev/blog/p=481/">SMDはんだ付けガイド</a>（韓国語）を参照してください。
+      </p>
+
+      <aside class="callout callout-note" role="note">
+        <p>
+          <strong>参考</strong>
+          拡大鏡でショートや浮きがないか確認します。他部品を実装したあとの修正は非常に困難です。
+        </p>
+      </aside>
+
+      <p>
+        100nFは7個です。SMD 1608またはディスクセラミック両対応パッドがあります。SMDを選んだら今はんだ付けします。極性はありません。
+      </p>
+      <p>このボードで最も難しいSMD作業はここまでです。</p>
+
+      <figure class="figure">
+        <img src="../pics/03_solder_lead_parts.webp" alt="リード部品のはんだ付け" width="800" height="600" loading="lazy" />
+        <figcaption>リード部品</figcaption>
+      </figure>
+
+      <p>
+        基板表記どおりに抵抗を実装します。1/4Wまたは1/8Wの5%抵抗で十分です。1%は高価でも利点は少なく、1/2Wは大きくて取り付けにくいです。
+      </p>
+
+      <aside class="callout callout-note" role="note">
+        <p>
+          <strong>参考</strong>
+          <code>*470</code>の抵抗3本はLED用です。330Ω〜1kΩなら470Ωでなくても構いません（作例では680Ω）。
+        </p>
+      </aside>
+
+      <figure class="figure">
+        <img src="../pics/04_solder_lead_parts.webp" alt="ダイオードとビーズ" width="800" height="600" loading="lazy" />
+        <figcaption>ダイオードとビーズ</figcaption>
+      </figure>
+
+      <p>
+        電源ジャック横のダイオードとUSB下のフェライトビーズを実装します。ビーズの代わりにPTC0805位置へリセッタブルヒューズでも可。どちらか一方を選んでください。
+      </p>
+
+      <figure class="figure">
+        <img src="../pics/05_solder_7805.webp" alt="7805の配置" width="800" height="600" loading="lazy" />
+        <figcaption>7805の仮付け</figcaption>
+      </figure>
+
+      <p>裏返して7805を実装します。まず片脚を仮付けし、</p>
+
+      <figure class="figure">
+        <img src="../pics/06_solder_7805.webp" alt="7805の仕上げ" width="800" height="600" loading="lazy" />
+        <figcaption>7805完了</figcaption>
+      </figure>
+
+      <p>位置が決まってから残りをはんだ付けします。</p>
+
+      <figure class="figure">
+        <img src="../pics/07_solder_crystal.webp" alt="レゾネータとクリスタル" width="800" height="600" loading="lazy" />
+        <figcaption>レゾネータとクリスタル</figcaption>
+      </figure>
+
+      <p>レゾネータ（青）とクリスタル（銀）を実装します。</p>
+
+      <figure class="figure">
+        <img src="../pics/08_solder_led.webp" alt="LED 3個" width="800" height="600" loading="lazy" />
+        <figcaption>LED</figcaption>
+      </figure>
+
+      <p>
+        3mm LEDを3個。極性に注意し、短い脚（または平坦面）をシルク表記（R/T, L, PWR）側へ向けます。
+      </p>
+
+      <figure class="figure">
+        <img src="../pics/09_solder_ic_socket.webp" alt="ICソケット" width="800" height="600" loading="lazy" />
+        <figcaption>ICソケット</figcaption>
+      </figure>
+
+      <p>
+        ATmega用ICソケットを実装します。写真では必要な長さに切ったソケットをテープとピンヘッダで仮固定してはんだ付けしています。
+      </p>
+
+      <aside class="callout callout-note" role="note">
+        <p>
+          <strong>参考</strong>
+          マスキングテープは早めに剥がせば糊が残りにくいです。3cm程度切っておくと部品の仮固定に便利です。
+        </p>
+      </aside>
+
+      <p>SMDの100nFをまだ付けていなければ、セラミック100nFを7個今実装します。</p>
+
+      <figure class="figure">
+        <img src="../pics/10_solder_capacitor.webp" alt="電解コンデンサ" width="800" height="600" loading="lazy" />
+        <figcaption>電解コンデンサ</figcaption>
+      </figure>
+
+      <p>
+        47uF〜100uFの電解（または固体）コンデンサを実装します。SMD用パッドもあります。
+        白い帯（−）をシルクの平らな側へ向けます。
+      </p>
+      <p>続いてUSBコネクタ、電源ジャック、リセットスイッチ、ISPピンヘッダなどを実装します。</p>
+
+      <figure class="figure">
+        <img src="../pics/11_make_pinheader_socket.webp" alt="ピンヘッダソケットの加工" width="800" height="600" loading="lazy" />
+        <figcaption>ソケット加工の準備</figcaption>
+      </figure>
+
+      <p>
+        6ピンと8ピンのメスヘッダが各2本必要です。長いソケットなら切る位置のピンを引き抜いてから、
+      </p>
+
+      <figure class="figure">
+        <img src="../pics/12_make_pinheader_socket.webp" alt="ソケット切断" width="800" height="600" loading="lazy" />
+        <figcaption>ソケット切断</figcaption>
+      </figure>
+
+      <p>その隙間で切断して使います。</p>
+
+      <figure class="figure">
+        <img src="../pics/13_solder_pinheader_socket.webp" alt="ピンヘッダソケットのはんだ付け" width="800" height="600" loading="lazy" />
+        <figcaption>ソケットのはんだ付け</figcaption>
+      </figure>
+
+      <p>
+        シールドがあれば上に挿して垂直を保ちやすいです（なければテープで仮固定）。両端を仮付けし、シールドを外して残りを仕上げます。
+      </p>
+      <p>はんだ付け完了です。ノッチ向きに合わせてATmegaをソケットへ挿入します。</p>
+
+      <figure class="figure">
+        <img src="../pics/14_done.webp" alt="完成したHUMAボード" width="800" height="600" loading="lazy" />
+        <figcaption>完成</figcaption>
+      </figure>
+
+      <p>電源選択ジャンパ（USB / 外部電源）を挿して完成です。</p>
+
+      <h2 id="bootloader">ブートローダ書き込み</h2>
+      <p>
+        ブートローダ入りATmegaを買っていない場合、最初の1回はAVR ISPでArduinoブートローダを書き込みます。
+      </p>
+      <p>ビルド済みhexはArduino IDEの次の場所にあります。</p>
+      <ul>
+        <li>ATMEGA8: <code>hardware/arduino/bootloaders/atmega8</code></li>
+        <li>ATMEGA168, ATMEGA328: <code>hardware/arduino/bootloaders/atmega</code></li>
+      </ul>
+      <p>手順の参考:</p>
+      <ul>
+        <li><a href="https://homin.dev/blog/p=74/">Arduino S3V3 bootloader</a></li>
+        <li><a href="http://tinysun.tistory.com/8">Arduinoをはじめよう</a>（韓国語）</li>
+      </ul>
+
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p>HUMA · HUman Madeable Arduino · <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.ja">CC BY-SA</a></p>
+      <p>Homin Lee &lt;<a href="mailto:i@homin.dev">i@homin.dev</a>&gt;</p>
+    </div>
+  </footer>
+
+  <script src="../site.js" defer></script>
+</body>
+</html>

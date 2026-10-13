@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HUMA Assembly Guide</title>
+  <meta name="description" content="HUMA is a solder-it-yourself Arduino-compatible board. Step-by-step from parts check through soldering and bootloader." />
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html">HUMA <span>Assembly guide</span></a>
+      <nav class="nav" aria-label="Primary">
+        <a href="index.html" aria-current="page">Build</a>
+        <a href="bom.html">Parts</a>
+        <a class="nav-external" href="https://github.com/suapapa/HUMA" rel="noopener noreferrer">GitHub</a>
+        <label class="lang-switch">
+        <span class="visually-hidden">Language</span>
+        <select data-lang-switch data-page="index" aria-label="Language">
+          <option value="ko">한국어</option><option value="en" selected>English</option><option value="ja">日本語</option><option value="zh">中文</option>
+        </select>
+      </label>
+      </nav>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="toc" aria-label="Contents">
+      <h2>Contents</h2>
+      <ol>
+        <li><a href="#tools">Tools and parts</a></li>
+        <li><a href="#solder">Soldering</a></li>
+        <li><a href="#bootloader">Burn the bootloader</a></li>
+      </ol>
+    </aside>
+
+    <main class="content">
+      <header class="hero">
+        <div class="hero__copy">
+          <h1>HUMA Assembly Guide</h1>
+          <p>
+            HUMA is an Arduino-compatible board based on Freeduino.
+            It is designed so you can solder every part yourself, like a classic radio kit.
+            Basic soldering experience is enough to finish the board.
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn-primary" href="#tools">Start building</a>
+            <a class="btn btn-secondary" href="bom.html">Parts list</a>
+          </div>
+        </div>
+        <figure class="hero__media">
+          <img src="../pics/HUMA_pcb.webp" alt="HUMA PCB board" width="800" height="600" />
+          <figcaption>HUMA PCB</figcaption>
+        </figure>
+      </header>
+
+      <p>
+        If soldering feels rusty, start with
+        <a href="https://homin.dev/blog/p=460/">this Korean comic guide to soldering</a>.
+      </p>
+      <p>
+        HUMA is open-source hardware. We take no responsibility for damage to the board
+        or any personal or material harm that may occur while assembling or using it.
+      </p>
+      <p>
+        Schematics, artwork, and related documents are licensed under
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en">CC BY-SA</a>.
+      </p>
+
+      <aside class="callout callout-warn" role="note">
+        <p>
+          <strong>Safety</strong>
+          Your safety is your responsibility. Wear eye protection and other gear while assembling,
+          and watch the hot soldering iron. Work in a well-ventilated area.
+        </p>
+      </aside>
+
+      <h2 id="tools">Tools and parts</h2>
+      <div class="figure-pair">
+        <figure class="figure">
+          <img src="../pics/00_tools.webp" alt="Tools needed for assembly" width="640" height="480" loading="lazy" />
+          <figcaption>Tools</figcaption>
+        </figure>
+        <figure class="figure">
+          <img src="../pics/00_check_parts.webp" alt="Checking parts" width="640" height="480" loading="lazy" />
+          <figcaption>Parts check</figcaption>
+        </figure>
+      </div>
+      <p>
+        Prepare the HUMA PCB and every item on the <a href="bom.html">parts list</a>.
+      </p>
+
+      <h2 id="solder">Soldering</h2>
+      <p>
+        Solder from lowest parts to tallest, from the center of the board outward,
+        and from heat-tolerant parts to heat-sensitive ones.
+      </p>
+      <p>
+        Start with the lowest 3.3V SMD capacitor. The plus (+) side is marked with a stripe.
+      </p>
+
+      <figure class="figure">
+        <img src="../pics/01_solder_smd_cap.webp" alt="Placing the SMD capacitor" width="800" height="600" loading="lazy" />
+        <figcaption>Place the SMD capacitor</figcaption>
+      </figure>
+
+      <p>Align the stripe toward the 2.2u marking, tack one pad first, then finish the other.</p>
+
+      <aside class="callout callout-note" role="note">
+        <p>
+          <strong>Note</strong>
+          The silk says 2.2u, but a 10uF capacitor was used in practice.
+        </p>
+      </aside>
+
+      <figure class="figure">
+        <img src="../pics/02_solder_smd_cap.webp" alt="Soldering the other SMD capacitor pad" width="800" height="600" loading="lazy" />
+        <figcaption>Finish the other pad</figcaption>
+      </figure>
+
+      <p>
+        Then bridge the solder jumper next to the capacitor to connect USB and 3V3.
+        That routes the FT232BL USB-serial chip's 3.3V onto the board rail.
+      </p>
+
+      <aside class="callout callout-note" role="note">
+        <p>
+          <strong>Note</strong>
+          If you need more 3.3V current, fit MIC5219 and a 470pF capacitor on the back of the board
+          and bridge the LDO-to-3V3 solder jumper instead, so 3.3V is derived from the 5V rail.
+        </p>
+      </aside>
+
+      <p>
+        Next solder the USB-serial chip FT232BL (or FT232BM). If you are new to SMD ICs, see
+        <a href="https://homin.dev/blog/p=481/">this SMD soldering guide</a> (Korean).
+      </p>
+
+      <aside class="callout callout-note" role="note">
+        <p>
+          <strong>Note</strong>
+          Check every SMD pin under magnification for opens and shorts.
+          Fixes get much harder after the rest of the board is populated.
+        </p>
+      </aside>
+
+      <p>
+        Seven 100nF capacitors are used. Pads accept either SMD 1608 or disc ceramic parts.
+        If you chose SMD, solder them now. 100nF caps are non-polar.
+      </p>
+      <p>The hardest SMD work on this board is done.</p>
+
+      <figure class="figure">
+        <img src="../pics/03_solder_lead_parts.webp" alt="Starting through-hole soldering" width="800" height="600" loading="lazy" />
+        <figcaption>Through-hole parts</figcaption>
+      </figure>
+
+      <p>
+        Install resistors to the values marked on the board. Use ordinary 1/4W or 1/8W 5% resistors.
+        1% parts cost more without benefit in this digital circuit. 1/2W parts are bulkier and harder to fit.
+      </p>
+
+      <aside class="callout callout-note" role="note">
+        <p>
+          <strong>Note</strong>
+          The three resistors marked <code>*470</code> are LED current limiters. Any value from 330Ω to 1kΩ is fine
+          (680Ω was used in the example build).
+        </p>
+      </aside>
+
+      <figure class="figure">
+        <img src="../pics/04_solder_lead_parts.webp" alt="Diode and bead installed" width="800" height="600" loading="lazy" />
+        <figcaption>Diode and bead</figcaption>
+      </figure>
+
+      <p>
+        Solder the diode by the power jack and the ferrite bead under the USB connector.
+        Instead of the bead you may fit a resettable fuse in the PTC0805 footprint, as on official Arduino boards.
+        Choose one of the two.
+      </p>
+
+      <figure class="figure">
+        <img src="../pics/05_solder_7805.webp" alt="Placing the 7805 regulator" width="800" height="600" loading="lazy" />
+        <figcaption>Place the 7805</figcaption>
+      </figure>
+
+      <p>Flip the board and solder the 7805. Tack one lead first to hold position,</p>
+
+      <figure class="figure">
+        <img src="../pics/06_solder_7805.webp" alt="Finishing 7805 pads" width="800" height="600" loading="lazy" />
+        <figcaption>7805 done</figcaption>
+      </figure>
+
+      <p>then solder the remaining pads once it sits flat.</p>
+
+      <figure class="figure">
+        <img src="../pics/07_solder_crystal.webp" alt="Resonator and crystal" width="800" height="600" loading="lazy" />
+        <figcaption>Resonator and crystal</figcaption>
+      </figure>
+
+      <p>Solder the resonator (blue) and the crystal (silver).</p>
+
+      <figure class="figure">
+        <img src="../pics/08_solder_led.webp" alt="Three LEDs installed" width="800" height="600" loading="lazy" />
+        <figcaption>LEDs</figcaption>
+      </figure>
+
+      <p>
+        Fit three 3mm LEDs. Observe polarity: the short lead (or flat edge) faces the silk labels (R/T, L, PWR).
+      </p>
+
+      <figure class="figure">
+        <img src="../pics/09_solder_ic_socket.webp" alt="IC socket installed" width="800" height="600" loading="lazy" />
+        <figcaption>IC socket</figcaption>
+      </figure>
+
+      <p>
+        Install the ATmega IC socket. The photos use a cut-to-length socket, taped and braced with pin-header sockets before soldering.
+      </p>
+
+      <aside class="callout callout-note" role="note">
+        <p>
+          <strong>Note</strong>
+          Masking tape leaves little residue if removed soon. Keep a few 3cm strips handy to hold parts while soldering.
+        </p>
+      </aside>
+
+      <p>If you skipped the SMD 100nF caps earlier, solder seven ceramic 100nF caps now.</p>
+
+      <figure class="figure">
+        <img src="../pics/10_solder_capacitor.webp" alt="Electrolytic capacitors" width="800" height="600" loading="lazy" />
+        <figcaption>Electrolytic capacitors</figcaption>
+      </figure>
+
+      <p>
+        Fit 47uF-100uF electrolytics (or solid caps). SMD footprints are also provided.
+        Orient the white stripe (-) toward the flat side of the silk outline.
+      </p>
+      <p>Then solder the USB connector, power jack, reset switch, and ISP pin header.</p>
+
+      <figure class="figure">
+        <img src="../pics/11_make_pinheader_socket.webp" alt="Preparing pin-header sockets" width="800" height="600" loading="lazy" />
+        <figcaption>Prepare pin-header sockets</figcaption>
+      </figure>
+
+      <p>
+        You need two 6-pin and two 8-pin female headers for shields. If you bought long strips, pull the pin at the cut point with pliers,
+      </p>
+
+      <figure class="figure">
+        <img src="../pics/12_make_pinheader_socket.webp" alt="Cutting pin-header sockets" width="800" height="600" loading="lazy" />
+        <figcaption>Cut the sockets</figcaption>
+      </figure>
+
+      <p>then cut the plastic at that gap.</p>
+
+      <figure class="figure">
+        <img src="../pics/13_solder_pinheader_socket.webp" alt="Soldering pin-header sockets" width="800" height="600" loading="lazy" />
+        <figcaption>Solder the sockets</figcaption>
+      </figure>
+
+      <p>
+        An Arduino shield plugged into the sockets keeps them square while soldering. Without one, tape them vertical.
+        Tack the end pins first, remove the shield, then finish the rest.
+      </p>
+      <p>Soldering is done. Insert the ATmega into the socket, matching the notch.</p>
+
+      <figure class="figure">
+        <img src="../pics/14_done.webp" alt="Finished HUMA board" width="800" height="600" loading="lazy" />
+        <figcaption>Complete</figcaption>
+      </figure>
+
+      <p>Fit the power-select jumper (USB / external) to finish.</p>
+
+      <h2 id="bootloader">Burn the bootloader</h2>
+      <p>
+        If your ATmega did not come with an Arduino bootloader, burn one once with an AVR ISP programmer.
+      </p>
+      <p>Prebuilt bootloader hex files ship with the Arduino IDE here:</p>
+      <ul>
+        <li>ATMEGA8: <code>hardware/arduino/bootloaders/atmega8</code></li>
+        <li>ATMEGA168, ATMEGA328: <code>hardware/arduino/bootloaders/atmega</code></li>
+      </ul>
+      <p>See also:</p>
+      <ul>
+        <li><a href="https://homin.dev/blog/p=74/">Arduino S3V3 bootloader</a></li>
+        <li><a href="http://tinysun.tistory.com/8">Getting started with Arduino</a> (Korean)</li>
+      </ul>
+
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p>HUMA · HUman Madeable Arduino · <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en">CC BY-SA</a></p>
+      <p>Homin Lee &lt;<a href="mailto:i@homin.dev">i@homin.dev</a>&gt;</p>
+    </div>
+  </footer>
+
+  <script src="../site.js" defer></script>
+</body>
+</html>

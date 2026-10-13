@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HUMA 零件清单</title>
+  <meta name="description" content="组装基于 Freeduino 的 HUMA 板所需零件清单。" />
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html">HUMA <span>零件清单</span></a>
+      <nav class="nav" aria-label="主导航">
+        <a href="index.html">组装</a>
+        <a href="bom.html" aria-current="page">零件清单</a>
+        <a class="nav-external" href="https://github.com/suapapa/HUMA" rel="noopener noreferrer">GitHub</a>
+        <label class="lang-switch">
+        <span class="visually-hidden">语言</span>
+        <select data-lang-switch data-page="bom" aria-label="语言">
+          <option value="ko">한국어</option><option value="en">English</option><option value="ja">日本語</option><option value="zh" selected>中文</option>
+        </select>
+      </label>
+      </nav>
+    </div>
+  </header>
+
+  <div class="layout layout--solo">
+    <main class="content">
+      <header class="hero hero--solo">
+        <div class="hero__copy">
+          <h1>零件清单</h1>
+          <p class="page-intro">
+            组装基于 Freeduino 的 HUMA 板所需零件清单。
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn-secondary" href="index.html">组装说明</a>
+          </div>
+        </div>
+      </header>
+
+      <div class="table-wrap">
+        <table class="table-parts">
+          <thead>
+            <tr>
+              <th scope="col">NAME</th>
+              <th scope="col">VALUE</th>
+              <th scope="col">EA</th>
+              <th scope="col">DESC</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>LDO</td><td>7805DT</td><td>1</td><td>5V 稳压器</td></tr>
+            <tr><td>USB2SERIAL IC</td><td>FT232BM</td><td>1</td><td>可用 FT232BL 替代</td></tr>
+            <tr><td>DIODE</td><td>1N4004</td><td>1</td><td></td></tr>
+            <tr><td>PWR-JACK</td><td></td><td>1</td><td>DC 电源座</td></tr>
+            <tr><td>USB CONNECT</td><td></td><td>1</td><td>USB Type-B 接口</td></tr>
+            <tr><td>PINHEADER</td><td>1X3</td><td>1</td><td>电源选择跳线</td></tr>
+            <tr><td>PINHEADER</td><td>2x3</td><td>1</td><td>AVR ISP 6 针</td></tr>
+            <tr><td>PUSHBUTTON</td><td></td><td>1</td><td>复位按键</td></tr>
+            <tr><td>RESISTOR</td><td>10k</td><td>1</td><td>复位上拉电阻</td></tr>
+            <tr><td>RESISTOR</td><td>470</td><td>4</td><td>标 <code>*</code> 的三只可用 330Ω~1kΩ 替代</td></tr>
+            <tr><td>RESISTOR</td><td>27</td><td>2</td><td>USB 信号电阻</td></tr>
+            <tr><td>RESISTOR</td><td>1k5</td><td>1</td><td>USB 上拉电阻</td></tr>
+            <tr><td>RESISTOR</td><td>1k</td><td>2</td><td></td></tr>
+            <tr><td>FUSE</td><td>PTC1812</td><td>1</td><td>自恢复保险丝（或用磁珠）</td></tr>
+            <tr><td>LED</td><td>3mm</td><td>3</td><td>短脚(-)朝向丝印文字一侧</td></tr>
+            <tr><td>RESONATOR</td><td>6MHz</td><td>1</td><td></td></tr>
+            <tr><td>CRYSTAL</td><td>16MHz</td><td>1</td><td></td></tr>
+            <tr><td>CAPACITOR</td><td>22pF</td><td>2</td><td></td></tr>
+            <tr><td>CAPACITOR</td><td>100nF</td><td>7</td><td>SMD 1608 或圆片陶瓷</td></tr>
+            <tr><td>CAPACITOR</td><td>47uF</td><td>2</td><td>电解电容</td></tr>
+            <tr><td>CAPACITOR</td><td>10uF</td><td>1</td><td><strong>丝印为 2.2uF，实际用 10uF</strong></td></tr>
+            <tr><td>MCU</td><td>ATMEGA8</td><td>1</td><td>亦可用 ATmega168 / ATmega328</td></tr>
+            <tr><td>IC SOCKET</td><td>28pin</td><td>1</td><td>ATmega DIP 座</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p>HUMA · HUman Madeable Arduino · <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.zh">CC BY-SA</a></p>
+      <p>Homin Lee &lt;<a href="mailto:i@homin.dev">i@homin.dev</a>&gt;</p>
+    </div>
+  </footer>
+
+  <script src="../site.js" defer></script>
+</body>
+</html>
